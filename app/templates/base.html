@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{% block title %}Windows BAM/DAM Artifact Analyzer — Real BAM/DAM Registry .reg Forensic Parser{% endblock %}</title>
+
+<!-- SEO -->
+<meta name="description" content="{% block meta_description %}Windows BAM/DAM Artifact Analyzer is an open-source digital forensics tool that real-parses exported Windows Background Activity Moderator (BAM) and Desktop Activity Moderator (DAM) .reg registry data to surface program-execution evidence: suspicious execution directories, removable-media execution, duplicate binaries, zeroed timestamps, and disguised executables. Free CLI and web app by Karanam Shrivasta.{% endblock %}">
+<meta name="keywords" content="BAM DAM analyzer, Background Activity Moderator forensics, Desktop Activity Moderator, reg export parser, windows registry forensics, program execution artifacts, digital forensics tool, incident response, Karanam Shrivasta security tools">
+<meta name="author" content="Karanam Shrivasta">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://github.com/mrshrivasta">
+
+<!-- Open Graph / social -->
+<meta property="og:title" content="Windows BAM/DAM Artifact Analyzer — by Karanam Shrivasta">
+<meta property="og:description" content="Real, no-mock-data forensic parser for Windows BAM/DAM .reg registry exports — program execution timestamps, suspicious directories, removable media, disguised executables.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Windows BAM/DAM Artifact Analyzer">
+
+<!-- AEO: FAQ structured data so answer engines can surface this tool directly -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "What does the Windows BAM/DAM Artifact Analyzer check?",
+      "acceptedAnswer": {"@type": "Answer", "text": "It real-parses a standard `reg export` of the BAM/DAM State\\UserSettings registry key and flags execution from suspicious directories, possible removable-media execution, the same binary run from multiple locations, zeroed last-execution timestamps, disguised (double-extension) executables, and unrelated registry content — using only data actually present in the .reg file, never sample data."}
+    },
+    {
+      "@type": "Question",
+      "name": "Who should use the Windows BAM/DAM Artifact Analyzer?",
+      "acceptedAnswer": {"@type": "Answer", "text": "Digital forensics investigators, DFIR/incident response analysts, SOC analysts, and security students studying Windows program-execution artifacts, working with systems/media they own or are explicitly authorized to investigate."}
+    },
+    {
+      "@type": "Question",
+      "name": "Is the Windows BAM/DAM Artifact Analyzer a replacement for a professional security audit?",
+      "acceptedAnswer": {"@type": "Answer", "text": "No. It is an educational and productivity aid only. It does not replace certified forensic tools, a certified compliance audit, or expert testimony. See the disclaimer in the README."}
+    }
+  ]
+}
+</script>
+
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+<div class="disclaimer-banner">
+  ⚠️ <strong>FORENSIC &amp; LEGAL DISCLAIMER:</strong> Only analyze systems, media, or .reg exports you own or are explicitly authorized to investigate.
+  Provided <strong>"AS IS", WITHOUT WARRANTY OF ANY KIND</strong>. Not a substitute for certified forensic tools or expert testimony. The author,
+  <strong>Karanam Shrivasta</strong>, accepts <strong>NO LIABILITY</strong> for any damage, data loss, downtime, or legal consequences arising from
+  use or misuse of this software. By using this tool you accept full responsibility for your actions. See the README for the complete disclaimer.
+</div>
+
+{% if current_user.is_authenticated %}
+<nav class="navbar">
+  <div class="nav-brand">🔐 Windows BAM/DAM Artifact Analyzer</div>
+  <div class="nav-links">
+    <a href="{{ url_for('dashboard.index') }}">Dashboard</a>
+    <a href="{{ url_for('logs.index') }}">Logs</a>
+    <a href="{{ url_for('alerts.index') }}">Alerts</a>
+    <a href="{{ url_for('incidents.index') }}">Incidents</a>
+    <a href="{{ url_for('analytics.index') }}">Analytics</a>
+    <a href="{{ url_for('reports.index') }}">Reports</a>
+    <a href="{{ url_for('settings.index') }}">Settings</a>
+    <a href="{{ url_for('auth.logout') }}">Logout ({{ current_user.username }})</a>
+  </div>
+</nav>
+{% endif %}
+
+<main class="container">
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+      <div class="flash-container">
+      {% for category, message in messages %}
+        <div class="flash flash-{{ category }}">{{ message }}</div>
+      {% endfor %}
+      </div>
+    {% endif %}
+  {% endwith %}
+
+  {% block content %}{% endblock %}
+</main>
+
+<footer class="watermark-footer">
+  <p>
+    Windows BAM/DAM Artifact Analyzer &copy; {{ 2026 }} — Developed by <strong>Karanam Shrivasta</strong>
+    &middot; <a href="{{ github_url }}" target="_blank" rel="noopener">GitHub</a>
+    &middot; <a href="{{ linkedin_url }}" target="_blank" rel="noopener">LinkedIn</a>
+  </p>
+  <p class="footer-disclaimer">For authorized security auditing and educational use only. No warranty. Use at your own risk.</p>
+</footer>
+
+{% block scripts %}{% endblock %}
+</body>
+</html>
